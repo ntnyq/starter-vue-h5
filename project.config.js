@@ -56,6 +56,8 @@ const plugins = [
 
 exports.aliases = {}
 
+// For eslint-plugin-vue doesn't support eslint v6 currently
+// eslint-disable-next-line no-unused-vars
 for (const alias in aliasesConfig) {
   exports.aliases[alias] = resolve(__dirname, aliasesConfig[alias])
 }

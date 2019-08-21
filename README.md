@@ -1,4 +1,4 @@
-# vue-mobile-boilerplate
+# vue-vant-template
 
 ## Project setup
 ```
