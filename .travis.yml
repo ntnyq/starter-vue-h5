@@ -1,0 +1,36 @@
+language: node_js
+node_js: stable
+
+cache:
+  yarn: false
+  directories:
+    - node_modules
+
+script:
+  - yarn build
+
+after_success:
+  - cd ./dist
+  - git init
+  - git config user.name "ntnyq"
+  - git config user.email "ntnyq13@gmail.com"
+  - git add .
+  - git commit -m ":rocket:update demo"
+  - git push --force --quiet "https://${GH_TOKEN}@${GH_REF}" master:gh-pages
+  - scp -r ./* ntnyq@47.52.31.173:/home/ntnyq/www/demo/vant
+
+branches:
+  only:
+    - master
+
+env:
+  global:
+    - GH_REF: github.com/ntnyq/vue-vant-template.git
+
+addons:
+  ssh_known_hosts: 47.52.31.173
+
+before_install:
+  - openssl aes-256-cbc -K $encrypted_dc3cf69b83c0_key -iv $encrypted_dc3cf69b83c0_iv
+    -in id_rsa_deploy.enc -out ~/.ssh/id_rsa -d
+  - chmod 600 ~/.ssh/id_rsa
