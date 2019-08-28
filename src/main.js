@@ -3,9 +3,10 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 
-import '@styles/style'
 import '@plugins/vant'
+import '@styles/style'
 import '@plugins/bus'
+import '@filters'
 import '@icons'
 
 Vue.config.productionTip = false

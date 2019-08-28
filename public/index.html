@@ -13,6 +13,9 @@
   <meta name="screen-orientation" content="portrait" />
   <meta name="x5-orientation" content="portrait" />
   <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+  <script>
+    (function (d, c) { var e = d.documentElement, a = "orientationchange" in window ? "orientationchange" : "resize", b = function () { var f = e.clientWidth; if (!f) { return } if (f >= 750) { e.style.fontSize = "100px" } else { e.style.fontSize = 100 * (f / 750) + "px" } }; b(); if (!d.addEventListener) { return }; c.addEventListener(a, b, false); d.addEventListener("DOMContentLoaded", b, false) })(document, window);
+  </script>
   <title><%= VUE_APP_TITLE %></title>
 </head>
 
