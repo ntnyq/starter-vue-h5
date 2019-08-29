@@ -134,8 +134,11 @@ export default {
   }
 
   .cnt-wrap {
+    position: relative;
+    z-index: 233;
     flex: 1 0;
     overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
   }
 
   .list-item {
@@ -152,13 +155,17 @@ export default {
     }
 
     &-title {
+      flex: 1 0;
+      margin-right: 40px;
       font-size: 32px;
       color: #333;
+      @include ellipsis;
     }
 
     &-update-time {
       display: inline-flex;
       align-items: center;
+      white-space: nowrap;
       font-size: 24px;
       color: #666;
 
