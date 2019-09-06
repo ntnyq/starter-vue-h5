@@ -1,28 +1,26 @@
 # vue-vant-template
 
+Vue 移动端项目模板，组件库 Vant.
+
 ## Project setup
-```
-yarn install
+
+``` bash
+$ yarn install
 ```
 
 ### Compiles and hot-reloads for development
-```
-yarn run serve
+``` bash
+$ yarn run serve
 ```
 
 ### Compiles and minifies for production
-```
-yarn run build
-```
-
-### Run your tests
-```
-yarn run test
+``` bash
+$ yarn run build
 ```
 
 ### Lints and fixes files
-```
-yarn run lint
+``` bash
+$ yarn run lint:fix
 ```
 
 ### Customize configuration

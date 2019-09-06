@@ -2,19 +2,29 @@
   "name": "vue-mobile-template",
   "version": "0.0.1",
   "private": true,
-  "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "build:analyzer": "vue-cli-service build --mode analyzer",
-    "lint": "vue-cli-service lint",
-    "svgo": "svgo -f src/icons/svg --config=src/icons/svgo.yml"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ntnyq/vue-vant-template.git"
   },
-  "gitHooks": {
-    "pre-commit": "lint-staged"
+  "license": "MIT",
+  "author": {
+    "name": "ntnyq",
+    "email": "ntnyq13@gmail.com"
+  },
+  "scripts": {
+    "build": "vue-cli-service build",
+    "build:analyzer": "vue-cli-service build --report && anywhere -d dist -f /report.html",
+    "lint:fix": "vue-cli-service lint",
+    "serve": "vue-cli-service serve",
+    "svgo": "svgo -f src/icons/svg --config=src/icons/svgo.yml"
   },
   "lint-staged": {
     "*.{js,vue}": [
       "vue-cli-service lint",
+      "git add"
+    ],
+    "package.json": [
+      "sort-package-json",
       "git add"
     ]
   },
@@ -32,6 +42,7 @@
     "@vue/cli-plugin-babel": "^3.11.0",
     "@vue/cli-plugin-eslint": "^3.11.0",
     "@vue/cli-service": "^3.11.0",
+    "anywhere": "^1.5.0",
     "babel-eslint": "^10.0.3",
     "babel-plugin-import": "^1.12.1",
     "eslint": "^6.3.0",
@@ -44,18 +55,12 @@
     "sass": "^1.22.10",
     "sass-loader": "^7.3.1",
     "script-ext-html-webpack-plugin": "^2.1.4",
+    "sort-package-json": "^1.22.1",
     "svg-sprite-loader": "^4.1.6",
     "svgo": "^1.3.0",
-    "vue-template-compiler": "^2.6.10",
-    "webpack-bundle-analyzer": "^3.4.1"
+    "vue-template-compiler": "^2.6.10"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/ntnyq/vue-vant-template.git"
-  },
-  "author": {
-    "name": "ntnyq",
-    "email": "ntnyq13@gmail.com"
-  },
-  "license": "MIT"
+  "gitHooks": {
+    "pre-commit": "lint-staged"
+  }
 }

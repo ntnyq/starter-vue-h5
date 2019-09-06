@@ -2,12 +2,33 @@ const webpack = require('webpack')
 const { resolve } = require('path')
 const ImageminPlugin = require('imagemin-webpack-plugin').default
 const imageminMozjpeg = require('imagemin-mozjpeg')
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
-const {
-  NODE_ENV,
-  VUE_APP_ANALYZER,
-} = process.env
+const externals = {
+  vue: 'Vue',
+  'vue-router': 'VueRouter',
+  vuex: 'Vuex',
+  vant: 'vant',
+  axios: 'axios',
+}
+
+const cdns = {
+  dev: {
+    css: [],
+    js: [],
+  },
+  build: {
+    css: [
+      'https://unpkg.com/vant/lib/index.css',
+    ],
+    js: [
+      'https://unpkg.com/vue/dist/vue.min.js',
+      'https://unpkg.com/vuex/dist/vuex.min.js',
+      'https://unpkg.com/vue-router/dist/vue-router.min.js',
+      'https://unpkg.com/vant/lib/vant.min.js',
+      'https://unpkg.com/axios/dist/axios.min.js',
+    ],
+  },
+}
 
 const aliasesConfig = {
   '@': 'src',
@@ -31,35 +52,28 @@ const aliasesConfig = {
 }
 
 const plugins = [
-  ...(
-    NODE_ENV === 'production'
-      ? [
-        new ImageminPlugin({
-          pngquant: { quality: '65-80' },
-          plugins: [
-            imageminMozjpeg({
-              quality: 70,
-              progressive: true,
-            }),
-          ],
-        }),
-        new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/), // no i18n
-      ]
-      : []),
-  ...(
-    VUE_APP_ANALYZER
-      ? [
-        new BundleAnalyzerPlugin(),
-      ]
-      : []),
+  ...(process.env.NODE_ENV === 'production'
+    ? [
+      new ImageminPlugin({
+        pngquant: { quality: '65-80' },
+        plugins: [
+          imageminMozjpeg({
+            quality: 70,
+            progressive: true,
+          }),
+        ],
+      }),
+      new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/), // no i18n
+    ]
+    : []),
 ]
 
 exports.aliases = {}
 
-// For eslint-plugin-vue doesn't support eslint v6 currently
-// eslint-disable-next-line no-unused-vars
 for (const alias in aliasesConfig) {
   exports.aliases[alias] = resolve(__dirname, aliasesConfig[alias])
 }
 
 exports.plugins = plugins
+exports.externals = externals
+exports.cdns = cdns
