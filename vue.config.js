@@ -1,6 +1,5 @@
 const path = require('path')
 const {
-  aliases,
   plugins,
   externals,
   cdns,
@@ -18,19 +17,17 @@ module.exports = {
   css: {
     loaderOptions: {
       sass: {
-        data: '@import "@styles/core/style";',
+        prependData: '@import "@/styles/core/style";',
       },
     },
   },
 
   devServer: {
-    // port: 12345,
     open: true,
   },
 
   configureWebpack: config => {
     config.plugins.push(...plugins)
-    config.resolve.alias = aliases
     isProduction && process.env.VUE_APP_CDN_ENABLE && Object.assign(config, { externals })
   },
 
@@ -68,7 +65,7 @@ module.exports = {
     config
       // https://webpack.js.org/configuration/devtool/#development
       .when(!isProduction,
-        config => config.devtool('cheap-source-map')
+        config => config.devtool('cheap-source-map'),
       )
 
     config

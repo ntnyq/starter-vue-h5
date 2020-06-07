@@ -1,10 +1,7 @@
 import axios from 'axios'
 import Qs from 'qs'
-
 import { Toast } from 'vant'
-import {
-  CODE_SUCCESS,
-} from '@constants/http-status'
+import { CODE_SUCCESS } from '@/constants/http-status'
 
 const {
   VUE_APP_API_HOST,
@@ -14,7 +11,6 @@ const {
 const instance = axios.create({
   baseURL: VUE_APP_API_HOST,
   timeout: VUE_APP_REQUEST_TIMEOUT,
-  // withCredentials: true,
 })
 
 instance.interceptors.request.use(config => {

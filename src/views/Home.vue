@@ -24,7 +24,7 @@
         <div
           v-for="item in list"
           :title="item.name"
-          :key="item.id"
+          :key="item.node_id"
           class="list-item"
         >
           <div class="list-item-header">
@@ -66,9 +66,7 @@
 </template>
 
 <script>
-import {
-  searchRepoList,
-} from '@services/repo'
+import { searchRepoList } from '@/services/repo'
 
 export default {
   name: 'Home',

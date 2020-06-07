@@ -1,4 +1,4 @@
 export {
   formatTime,
   formatNumber,
-} from '@utils'
+} from '@/utils'
