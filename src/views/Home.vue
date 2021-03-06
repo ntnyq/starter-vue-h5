@@ -4,15 +4,15 @@
       GitHub Stars Rank
     </h1>
     <van-search
-      @search="onSearch"
       v-model="params.q"
       placeholder="请输入搜索关键词"
       show-action
       shape="round"
+      @search="onSearch"
     >
       <span
-        @click="onSearch"
         slot="action"
+        @click="onSearch"
       >搜索</span>
     </van-search>
     <div class="cnt-wrap">
@@ -23,8 +23,8 @@
       >
         <div
           v-for="item in list"
-          :title="item.name"
           :key="item.node_id"
+          :title="item.name"
           class="list-item"
         >
           <div class="list-item-header">

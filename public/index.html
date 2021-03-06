@@ -5,8 +5,7 @@
   <meta charset="UTF-8" />
   <meta name="renderer" content="webkit" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
-  <meta name="viewport"
-    content="width=device-width, initial-scale=1.0, maximum-scale=1, minimum-scale=1, user-scalable=no, viewport-fit=cover" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, minimum-scale=1, user-scalable=no, viewport-fit=cover" />
   <meta content="yes" name="apple-mobile-web-app-capable" />
   <meta content="black" name="apple-mobile-web-app-status-bar-style" />
   <meta content="telephone=no, email=no" name="format-detection" />
@@ -19,7 +18,27 @@
   <link href="<%= htmlWebpackPlugin.options.cdn.css[i] %>" rel="stylesheet" />
   <% } %>
   <script>
-    (function (d, c) { var e = d.documentElement, a = "orientationchange" in window ? "orientationchange" : "resize", b = function () { var f = e.clientWidth; if (!f) { return } if (f >= 750) { e.style.fontSize = "100px" } else { e.style.fontSize = 100 * (f / 750) + "px" } }; b(); if (!d.addEventListener) { return }; c.addEventListener(a, b, false); d.addEventListener("DOMContentLoaded", b, false) })(document, window);
+    (function(d, c) {
+      var e = d.documentElement,
+        a = "orientationchange" in window ? "orientationchange" : "resize",
+        b = function() {
+          var f = e.clientWidth;
+          if (!f) {
+            return
+          }
+          if (f >= 750) {
+            e.style.fontSize = "100px"
+          } else {
+            e.style.fontSize = 100 * (f / 750) + "px"
+          }
+        };
+      b();
+      if (!d.addEventListener) {
+        return
+      };
+      c.addEventListener(a, b, false);
+      d.addEventListener("DOMContentLoaded", b, false)
+    })(document, window);
   </script>
   <title><%= VUE_APP_TITLE %></title>
 </head>

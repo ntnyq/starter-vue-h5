@@ -5,7 +5,7 @@ module.exports = {
       rootValue: 100,
       unitPrecision: 5,
       propList: ['*'],
-      selectorBlackList: ['body', /^.van\-/],
+      selectorBlackList: [/^body$/, /^.van-/],
       replace: true,
       mediaQuery: false,
       minPixelValue: 0,

@@ -1,9 +1,12 @@
 {
-  "eslint.enable": true,
   "editor.codeActionsOnSave": {
     "source.eslint.fixAll": true
   },
   "[javascript]": {
     "editor.formatOnSave": false
-  }
+  },
+  "cSpell.words": [
+    "pxtorem",
+    "vant"
+  ]
 }
