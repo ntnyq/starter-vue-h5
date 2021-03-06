@@ -1,5 +1,3 @@
-const webpack = require('webpack')
-
 const externals = {
   vue: 'Vue',
   'vue-router': 'VueRouter',
@@ -25,14 +23,5 @@ const cdns = {
   },
 }
 
-const plugins = [
-  ...(process.env.NODE_ENV === 'production'
-    ? [
-      new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/), // no i18n
-    ]
-    : []),
-]
-
-exports.plugins = plugins
 exports.externals = externals
 exports.cdns = cdns

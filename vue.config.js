@@ -1,6 +1,5 @@
 const path = require('path')
 const {
-  plugins,
   externals,
   cdns,
 } = require('./project.config')
@@ -27,13 +26,10 @@ module.exports = {
   },
 
   configureWebpack: config => {
-    config.plugins.push(...plugins)
     isProduction && process.env.VUE_APP_CDN_ENABLE && Object.assign(config, { externals })
   },
 
   chainWebpack: config => {
-    config.resolve.extensions.store.add('.scss')
-
     // Set svg-sprite-loader
     config.module
       .rule('svg')
