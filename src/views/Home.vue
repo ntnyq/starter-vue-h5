@@ -3,23 +3,23 @@
     <h1 class="title">
       GitHub Stars Rank
     </h1>
-    <van-search
-      v-model="params.q"
+    <VanSearch
+      @search="handleSearch"
+      v-model="listQuery.q"
       placeholder="请输入搜索关键词"
       show-action
       shape="round"
-      @search="onSearch"
     >
-      <span
-        slot="action"
-        @click="onSearch"
-      >搜索</span>
-    </van-search>
+      <template #action>
+        <span @click="handleSearch">搜索</span>
+      </template>
+    </VanSearch>
     <div class="cnt-wrap">
-      <van-list
-        v-model="isLoading"
-        :finished="isFinished"
+      <VanList
         @load="fetchData"
+        v-model:loading="isLoading"
+        :finished="isFinished"
+        finished-text="no more data"
       >
         <div
           v-for="item in list"
@@ -32,8 +32,8 @@
               {{ item.name }}
             </h3>
             <span class="list-item-update-time">
-              <van-icon name="calender-o" />
-              <span>{{ item.updated_at | formatTime('MM/dd hh:mm') }}</span>
+              <VanIcon name="calender-o" />
+              <span>{{ item.updated_at }}</span>
             </span>
           </div>
           <p class="list-item-description">
@@ -41,79 +41,77 @@
           </p>
           <div class="list-item-action">
             <div class="action-item">
-              <van-icon name="eye-o" />
+              <VanIcon name="eye-o" />
               <span class="action-item-num">
-                {{ item.watchers_count | formatNumber }}
+                {{ item.watchers_count }}
               </span>
             </div>
             <div class="action-item">
-              <van-icon name="star-o" />
+              <VanIcon name="star-o" />
               <span class="action-item-num">
-                {{ item.stargazers_count | formatNumber }}
+                {{ item.stargazers_count }}
               </span>
             </div>
             <div class="action-item">
-              <van-icon name="cluster-o" />
+              <VanIcon name="cluster-o" />
               <span class="action-item-num">
-                {{ item.forks_count | formatNumber }}
+                {{ item.forks_count }}
               </span>
             </div>
           </div>
         </div>
-      </van-list>
+      </VanList>
     </div>
   </div>
 </template>
 
-<script>
+<script lang="ts" setup>
+import { showNotify } from 'vant'
 import { searchRepoList } from '@/services/repo'
+import type { IRepo } from '@/types'
 
-export default {
+defineOptions({
   name: 'Home',
+})
 
-  data () {
-    return {
-      isLoading: false,
-      isFinished: false,
-      params: {
-        q: 'javascript',
-        sort: 'stars',
-        per_page: 20,
-        page: 1,
-      },
-      list: [],
-    }
-  },
+const isLoading = ref(false)
+const isFinished = ref(false)
+const listQuery = reactive({
+  q: 'javascript',
+  sort: 'stars',
+  per_page: 20,
+  page: 1,
+})
+const list = ref<IRepo[]>([])
 
-  methods: {
-    onSearch () {
-      if (!this.params.q) {
-        this.$notify({ type: 'warning', message: 'Empty search word' })
-        return
-      }
+const fetchData = async () => {
+  isLoading.value = true
 
-      this.params.page = 1
-      this.list = []
-      this.fetchData()
-    },
+  const {
+    items = [],
+    // eslint-disable-next-line camelcase
+    total_count,
+  } = await searchRepoList(listQuery)
 
-    async fetchData () {
-      this.isLoading = true
+  list.value.push(...items)
 
-      // eslint-disable-next-line camelcase
-      const { items = [], total_count } = await searchRepoList(this.params)
+  listQuery.page++
+  isLoading.value = false
 
-      this.list.push(...items)
+  // eslint-disable-next-line camelcase
+  if (listQuery.page * listQuery.per_page >= total_count) {
+    isFinished.value = true
+  }
+}
+const handleSearch = () => {
+  if (!listQuery.q) {
+    showNotify({ type: 'warning', message: '请输入关键词后搜索' })
+    return
+  }
 
-      this.params.page++
-      this.isLoading = false
-
-      // eslint-disable-next-line camelcase
-      if (this.params.page * this.params.per_page >= total_count) {
-        this.isFinished = true
-      }
-    },
-  },
+  listQuery.page = 1
+  list.value = []
+  fetchData()
 }
 </script>
 

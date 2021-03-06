@@ -4,8 +4,14 @@ module.exports = {
     'postcss-pxtorem': {
       rootValue: 100,
       unitPrecision: 5,
-      propList: ['*'],
-      selectorBlackList: [/^body$/, /^.van-/],
+      propList: [
+        '*',
+        '!--van-*',
+      ],
+      selectorBlackList: [
+        /^#app$/,
+        /^.van-/,
+      ],
       replace: true,
       mediaQuery: false,
       minPixelValue: 0,

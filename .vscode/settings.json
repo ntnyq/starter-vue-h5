@@ -2,11 +2,38 @@
   "editor.codeActionsOnSave": {
     "source.eslint.fixAll": true
   },
+  "eslint.validate": [
+    "javascript",
+    "typescript",
+    "vue",
+    "vue-html",
+    "json",
+    "json5",
+    "jsonc",
+    "yaml",
+    "markdown"
+  ],
+  "[html]": {
+    "editor.formatOnSave": false
+  },
+  "[vue]": {
+    "editor.formatOnSave": false
+  },
   "[javascript]": {
     "editor.formatOnSave": false
   },
+  "[typescript]": {
+    "editor.formatOnSave": false
+  },
   "cSpell.words": [
+    "esbuild",
+    "INTLIFY",
+    "pinia",
+    "pnpm",
     "pxtorem",
-    "vant"
-  ]
+    "unplugin",
+    "vant",
+    "vueuse"
+  ],
+  "cSpell.allowCompoundWords": true
 }

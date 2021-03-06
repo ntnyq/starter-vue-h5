@@ -2,7 +2,6 @@ name: CI
 
 on:
   pull_request:
-    types: [closed]
     branches:
       - main
   push:
@@ -13,15 +12,10 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@master
-      - uses: actions/setup-node@v1
-      - uses: pnpm/action-setup@v1.2.1
-        with:
-          version: 5.18.1
-          run_install: true
+      - uses: actions/checkout@v3
+      - uses: pnpm/action-setup@v2
+      - uses: actions/setup-node@v3
+
+      - run: pnpm install --frozen-lockfile
       - run: pnpm run lint
-      - run: pnpm run build
-      - uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist
+      - run: pnpm run type-check

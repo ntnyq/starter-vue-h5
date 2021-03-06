@@ -1,11 +1,9 @@
 <template>
-  <div id="app">
-    <router-view />
-  </div>
+  <RouterView />
 </template>
 
-<script>
-export default {
+<script lang="ts" setup>
+defineOptions({
   name: 'App',
-}
+})
 </script>
