@@ -28,9 +28,7 @@
         }
       }
       b()
-      if (!d.addEventListener) {
-        return
-      }
+      if (!d.addEventListener) return
       c.addEventListener(a, b, false)
       d.addEventListener('DOMContentLoaded', b, false)
     })(document, window)
