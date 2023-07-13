@@ -5,23 +5,28 @@ const instance = axios.create({
   timeout: 60_000,
 })
 
-instance.interceptors.request.use(config => {
-  return config
-}, err => {
-  return Promise.reject(err)
-})
+instance.interceptors.request.use(
+  config => {
+    return config
+  },
+  err => {
+    return Promise.reject(err)
+  },
+)
 
-instance.interceptors.response.use(res => {
-  return res.data
-}, err => {
-  return Promise.reject(err)
-})
+instance.interceptors.response.use(
+  res => {
+    return res.data
+  },
+  err => {
+    return Promise.reject(err)
+  },
+)
 
-export default function (url: string, {
-  method = 'GET',
-  params = {},
-  options = {},
-} = {}) {
+export function request<T>(
+  url: string,
+  { method = 'GET', params = {}, options = {} } = {},
+): Promise<T> {
   method = method.toUpperCase()
 
   switch (method) {
@@ -41,3 +46,5 @@ export default function (url: string, {
       return Promise.reject(new Error(`Unknown request method: ${method}`))
   }
 }
+
+export default request
