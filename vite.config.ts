@@ -1,14 +1,9 @@
-import path from 'node:path'
 import { URL, fileURLToPath } from 'node:url'
 import { defineConfig, splitVendorChunkPlugin } from 'vite'
 import Vue from '@vitejs/plugin-vue'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
-// @ts-expect-error wait typescript v5
-import DefineOptions from 'unplugin-vue-define-options/vite'
 import { VantResolver } from 'unplugin-vue-components/resolvers'
-
-const resolve = (...args: string[]) => path.resolve(__dirname, ...args)
 
 export default defineConfig({
   base: './',
@@ -39,12 +34,7 @@ export default defineConfig({
   },
 
   optimizeDeps: {
-    include: [
-      'vue',
-      'vant',
-      'vue-router',
-      '@vueuse/core',
-    ],
+    include: ['vue', 'vant', 'vue-router', '@vueuse/core'],
   },
 
   server: {
@@ -62,15 +52,9 @@ export default defineConfig({
 
     splitVendorChunkPlugin(),
 
-    DefineOptions(),
-
     AutoImport({
       dts: 'src/auto-imports.d.ts',
-      imports: [
-        'vue',
-        'pinia',
-        'vue-router',
-      ],
+      imports: ['vue', 'pinia', 'vue-router'],
       eslintrc: {
         enabled: true,
       },
@@ -79,9 +63,7 @@ export default defineConfig({
 
     Components({
       dts: 'src/components.d.ts',
-      resolvers: [
-        VantResolver(),
-      ],
+      resolvers: [VantResolver()],
     }),
   ],
 })

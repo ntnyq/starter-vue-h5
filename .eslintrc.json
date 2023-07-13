@@ -1,16 +1,6 @@
 {
   "root": true,
-  "extends": [
-    "@ntnyq",
-    "./.eslintrc-auto-import.json"
-  ],
-  "globals": {
-    "defineOptions": "readonly"
-  },
-  "ignorePatterns": [
-    "src/auto-imports.d.ts",
-    "src/components.d.ts"
-  ],
+  "extends": ["@ntnyq", "./.eslintrc-auto-import.json"],
   "rules": {
     "vue/no-v-model-argument": "off",
     "vue/no-multiple-template-root": "off",
@@ -18,7 +8,7 @@
     "vue/no-unsupported-features": [
       "error",
       {
-        "version": "^3.2.0",
+        "version": "^3.3.4",
         "ignores": []
       }
     ],
@@ -27,11 +17,7 @@
       "PascalCase",
       {
         "registeredComponentsOnly": false,
-        "ignores": [
-          "component",
-          "transition",
-          "slot"
-        ]
+        "ignores": ["component", "transition", "slot"]
       }
     ]
   }

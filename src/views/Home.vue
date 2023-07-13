@@ -1,14 +1,62 @@
+<script lang="ts" setup>
+import { showNotify } from 'vant'
+import { searchRepoList } from '@/services/repo'
+import type { IRepo } from '@/types'
+
+defineOptions({
+  name: 'Home',
+})
+
+const isLoading = ref(false)
+const isFinished = ref(false)
+const listQuery = reactive({
+  q: 'javascript',
+  sort: 'stars',
+  per_page: 20,
+  page: 1,
+})
+const list = ref<IRepo[]>([])
+
+const fetchData = async () => {
+  isLoading.value = true
+
+  const {
+    items = [],
+    // eslint-disable-next-line camelcase
+    total_count,
+  } = await searchRepoList(listQuery)
+
+  list.value.push(...items)
+
+  listQuery.page++
+  isLoading.value = false
+
+  // eslint-disable-next-line camelcase
+  if (listQuery.page * listQuery.per_page >= total_count) {
+    isFinished.value = true
+  }
+}
+const handleSearch = () => {
+  if (!listQuery.q) {
+    showNotify({ type: 'warning', message: '请输入关键词后搜索' })
+    return
+  }
+
+  listQuery.page = 1
+  list.value = []
+  fetchData()
+}
+</script>
+
 <template>
   <div class="home">
-    <h1 class="title">
-      GitHub Stars Rank
-    </h1>
+    <h1 class="title">GitHub Stars Rank</h1>
     <VanSearch
       @search="handleSearch"
       v-model="listQuery.q"
       placeholder="请输入搜索关键词"
-      show-action
       shape="round"
+      show-action
     >
       <template #action>
         <span @click="handleSearch">搜索</span>
@@ -64,56 +112,6 @@
     </div>
   </div>
 </template>
-
-<script lang="ts" setup>
-import { showNotify } from 'vant'
-import { searchRepoList } from '@/services/repo'
-import type { IRepo } from '@/types'
-
-defineOptions({
-  name: 'Home',
-})
-
-const isLoading = ref(false)
-const isFinished = ref(false)
-const listQuery = reactive({
-  q: 'javascript',
-  sort: 'stars',
-  per_page: 20,
-  page: 1,
-})
-const list = ref<IRepo[]>([])
-
-const fetchData = async () => {
-  isLoading.value = true
-
-  const {
-    items = [],
-    // eslint-disable-next-line camelcase
-    total_count,
-  } = await searchRepoList(listQuery)
-
-  list.value.push(...items)
-
-  listQuery.page++
-  isLoading.value = false
-
-  // eslint-disable-next-line camelcase
-  if (listQuery.page * listQuery.per_page >= total_count) {
-    isFinished.value = true
-  }
-}
-const handleSearch = () => {
-  if (!listQuery.q) {
-    showNotify({ type: 'warning', message: '请输入关键词后搜索' })
-    return
-  }
-
-  listQuery.page = 1
-  list.value = []
-  fetchData()
-}
-</script>
 
 <style lang="scss" scoped>
 .home {

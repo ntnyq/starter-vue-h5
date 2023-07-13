@@ -1,5 +1,5 @@
-import type { IRepo } from '@/types'
 import request from '@/utils/request'
+import type { IRepo } from '@/types'
 
 interface ISearchRepoResult {
   items: IRepo[]
@@ -7,5 +7,5 @@ interface ISearchRepoResult {
 }
 
 export function searchRepoList(params: any): Promise<ISearchRepoResult> {
-  return request('/search/repositories', { params }) as any
+  return request<ISearchRepoResult>('/search/repositories', { params })
 }
