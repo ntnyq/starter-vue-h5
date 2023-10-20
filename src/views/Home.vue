@@ -3,10 +3,6 @@ import { showNotify } from 'vant'
 import { searchRepoList } from '@/services/repo'
 import type { IRepo } from '@/types'
 
-defineOptions({
-  name: 'Home',
-})
-
 const isLoading = ref(false)
 const isFinished = ref(false)
 const listQuery = reactive({
@@ -20,11 +16,8 @@ const list = ref<IRepo[]>([])
 const fetchData = async () => {
   isLoading.value = true
 
-  const {
-    items = [],
-    // eslint-disable-next-line camelcase
-    total_count,
-  } = await searchRepoList(listQuery)
+  // eslint-disable-next-line camelcase
+  const { items = [], total_count } = await searchRepoList(listQuery)
 
   list.value.push(...items)
 

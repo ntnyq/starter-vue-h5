@@ -4,24 +4,28 @@ Vue 移动端项目模板，组件库 Vant.
 
 ## Project setup
 
-``` bash
+```bash
 $ yarn install
 ```
 
 ### Compiles and hot-reloads for development
-``` bash
+
+```bash
 $ yarn run serve
 ```
 
 ### Compiles and minifies for production
-``` bash
+
+```bash
 $ yarn run build
 ```
 
 ### Lints and fixes files
-``` bash
+
+```bash
 $ yarn run lint:fix
 ```
 
 ### Customize configuration
+
 See [Configuration Reference](https://cli.vuejs.org/config/).
