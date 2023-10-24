@@ -1,4 +1,4 @@
-# vue-vant-template
+# starter-vue-h5
 
 Vue 移动端项目模板，组件库 Vant.
 
