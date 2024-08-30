@@ -19,7 +19,7 @@
   },
   "dependencies": {
     "@vueuse/core": "^10.5.0",
-    "axios": "^1.6.0",
+    "axios": "^1.7.4",
     "dayjs": "^1.11.10",
     "pinia": "^2.1.7",
     "vant": "^4.7.2",
