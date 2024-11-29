@@ -1,24 +1,32 @@
-import { URL, fileURLToPath } from 'node:url'
-import { defineConfig, splitVendorChunkPlugin } from 'vite'
+import { fileURLToPath, URL } from 'node:url'
+import { VantResolver } from '@vant/auto-import-resolver'
 import Vue from '@vitejs/plugin-vue'
+import UnoCSS from 'unocss/vite'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
-import { VantResolver } from 'unplugin-vue-components/resolvers'
+import { defineConfig } from 'vite'
 
 export default defineConfig({
-  base: './',
+  plugins: [
+    Vue(),
+
+    UnoCSS(),
+
+    AutoImport({
+      dts: 'src/auto-imports.d.ts',
+      imports: ['vue', 'pinia', 'vue-router'],
+      resolvers: [VantResolver()],
+    }),
+
+    Components({
+      dts: 'src/components.d.ts',
+      resolvers: [VantResolver()],
+    }),
+  ],
 
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),
-    },
-  },
-
-  css: {
-    preprocessorOptions: {
-      scss: {
-        additionalData: '@use "@/styles/core/style" as *;',
-      },
     },
   },
 
@@ -28,41 +36,11 @@ export default defineConfig({
     __INTLIFY_PROD_DEVTOOLS__: false,
   },
 
-  esbuild: {
-    // Prevent esbuild convert utf to ascii
-    charset: 'utf8',
-  },
-
   optimizeDeps: {
     include: ['vue', 'vant', 'vue-router', '@vueuse/core'],
   },
 
   server: {
     open: true,
-    host: true,
   },
-
-  build: {
-    cssCodeSplit: false,
-  },
-
-  plugins: [
-    Vue(),
-
-    splitVendorChunkPlugin(),
-
-    AutoImport({
-      dts: 'src/auto-imports.d.ts',
-      imports: ['vue', 'pinia', 'vue-router'],
-      eslintrc: {
-        enabled: true,
-      },
-      resolvers: [VantResolver()],
-    }),
-
-    Components({
-      dts: 'src/components.d.ts',
-      resolvers: [VantResolver()],
-    }),
-  ],
 })

@@ -1,5 +1,8 @@
 {
+  "eslint.enable": true,
+  "prettier.enable": true,
   "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.codeActionsOnSave": {
     "source.eslint.fixAll": "always"
   },
@@ -19,9 +22,6 @@
   "[html]": {
     "editor.formatOnSave": false
   },
-  "[vue]": {
-    "editor.formatOnSave": false
-  },
   "cSpell.words": [
     "esbuild",
     "INTLIFY",
@@ -31,6 +31,7 @@
     "pxtorem",
     "unplugin",
     "vant",
+    "VITE",
     "vueuse"
   ],
   "cSpell.allowCompoundWords": true

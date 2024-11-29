@@ -1,11 +1,12 @@
 <script lang="ts" setup>
 import { showNotify } from 'vant'
 import { searchRepoList } from '@/services/repo'
+import { formatTime } from '@/utils'
 import type { IRepo } from '@/types'
 
 const isLoading = ref(false)
 const isFinished = ref(false)
-const listQuery = reactive({
+const listQuery = ref({
   q: 'javascript',
   sort: 'stars',
   per_page: 20,
@@ -16,34 +17,32 @@ const list = ref<IRepo[]>([])
 const fetchData = async () => {
   isLoading.value = true
 
-  // eslint-disable-next-line camelcase
-  const { items = [], total_count } = await searchRepoList(listQuery)
+  const { items = [], total_count: totalCount } = await searchRepoList(listQuery.value)
 
   list.value.push(...items)
 
-  listQuery.page++
+  listQuery.value.page++
   isLoading.value = false
 
-  // eslint-disable-next-line camelcase
-  if (listQuery.page * listQuery.per_page >= total_count) {
+  if (listQuery.value.page * listQuery.value.per_page >= totalCount) {
     isFinished.value = true
   }
 }
 const handleSearch = () => {
-  if (!listQuery.q) {
+  if (!listQuery.value.q) {
     showNotify({ type: 'warning', message: '请输入关键词后搜索' })
     return
   }
 
-  listQuery.page = 1
+  listQuery.value.page = 1
   list.value = []
   fetchData()
 }
 </script>
 
 <template>
-  <div class="home">
-    <h1 class="title">GitHub Stars Rank</h1>
+  <div class="relative h-screen flex flex-col">
+    <h1 class="p-6 text-center text-3xl font-semibold">GitHub Stars Rank</h1>
     <VanSearch
       @search="handleSearch"
       v-model="listQuery.q"
@@ -55,7 +54,7 @@ const handleSearch = () => {
         <span @click="handleSearch">搜索</span>
       </template>
     </VanSearch>
-    <div class="cnt-wrap">
+    <div class="min-h-0 flex-1 of-y-auto">
       <VanList
         @load="fetchData"
         v-model:loading="isLoading"
@@ -66,36 +65,36 @@ const handleSearch = () => {
           v-for="item in list"
           :key="item.node_id"
           :title="item.name"
-          class="list-item"
+          class="mx-2 my-3 flex flex-col gap-3 p-4 text-lg shadow"
         >
-          <div class="list-item-header">
-            <h3 class="list-item-title">
+          <div class="flex flex-col items-start justify-between gap-2 md:flex-row md:items-center">
+            <h3 class="truncate text-xl font-semibold">
               {{ item.name }}
             </h3>
-            <span class="list-item-update-time">
+            <span class="op-80">
               <VanIcon name="calender-o" />
-              <span>{{ item.updated_at }}</span>
+              <span>{{ formatTime(item.updated_at) }}</span>
             </span>
           </div>
-          <p class="list-item-description">
+          <p class="op-70">
             {{ item.description }}
           </p>
-          <div class="list-item-action">
-            <div class="action-item">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2 p-2">
               <VanIcon name="eye-o" />
-              <span class="action-item-num">
+              <span class="op-75">
                 {{ item.watchers_count }}
               </span>
             </div>
-            <div class="action-item">
+            <div class="flex items-center gap-2 p-2">
               <VanIcon name="star-o" />
-              <span class="action-item-num">
+              <span class="op-75">
                 {{ item.stargazers_count }}
               </span>
             </div>
-            <div class="action-item">
+            <div class="flex items-center gap-2 p-2">
               <VanIcon name="cluster-o" />
-              <span class="action-item-num">
+              <span class="op-75">
                 {{ item.forks_count }}
               </span>
             </div>
@@ -105,93 +104,3 @@ const handleSearch = () => {
     </div>
   </div>
 </template>
-
-<style lang="scss" scoped>
-.home {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-
-  .title {
-    padding: 20px 30px 0;
-    text-align: center;
-    font-size: 40px;
-    color: #666;
-  }
-
-  .cnt-wrap {
-    position: relative;
-    z-index: 233;
-    flex: 1 0;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-  }
-
-  .list-item {
-    padding: 24px 0;
-    margin: 0 24px;
-    border-bottom: 1px solid #efefef;
-    font-size: 28px;
-
-    &-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
-    }
-
-    &-title {
-      flex: 1 0;
-      margin-right: 40px;
-      font-size: 32px;
-      color: #333;
-      @include ellipsis;
-    }
-
-    &-update-time {
-      display: inline-flex;
-      align-items: center;
-      white-space: nowrap;
-      font-size: 24px;
-      color: #666;
-
-      .van-icon {
-        margin-right: 10px;
-        font-size: 32px;
-      }
-    }
-
-    &-description {
-      margin-bottom: 20px;
-      word-break: break-all;
-      text-align: justify;
-      color: #999;
-    }
-
-    &-action {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-
-      .action-item {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex: 1 0;
-        font-size: 24px;
-        color: #666;
-
-        .van-icon {
-          margin-right: 20px;
-          font-size: 28px;
-        }
-      }
-    }
-
-    &:last-of-type {
-      border-bottom: none;
-    }
-  }
-}
-</style>
