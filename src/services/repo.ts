@@ -6,6 +6,8 @@ interface ISearchRepoResult {
   total_count: number
 }
 
-export function searchRepoList(params: Record<string, any>): Promise<ISearchRepoResult> {
+export function searchRepoList(
+  params: Record<string, any>,
+): Promise<ISearchRepoResult> {
   return request<ISearchRepoResult>('/search/repositories', { params })
 }

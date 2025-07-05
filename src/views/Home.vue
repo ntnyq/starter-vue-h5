@@ -17,7 +17,9 @@ const list = ref<IRepo[]>([])
 const fetchData = async () => {
   isLoading.value = true
 
-  const { items = [], total_count: totalCount } = await searchRepoList(listQuery.value)
+  const { items = [], total_count: totalCount } = await searchRepoList(
+    listQuery.value,
+  )
 
   list.value.push(...items)
 
@@ -67,7 +69,9 @@ const handleSearch = () => {
           :title="item.name"
           class="mx-2 my-3 flex flex-col gap-3 p-4 text-lg shadow"
         >
-          <div class="flex flex-col items-start justify-between gap-2 md:flex-row md:items-center">
+          <div
+            class="flex flex-col items-start justify-between gap-2 md:flex-row md:items-center"
+          >
             <h3 class="truncate text-xl font-semibold">
               {{ item.name }}
             </h3>

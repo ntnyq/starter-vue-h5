@@ -7,10 +7,22 @@ import Components from 'unplugin-vue-components/vite'
 import { defineConfig } from 'vite'
 
 export default defineConfig({
+  define: {
+    __INTLIFY_PROD_DEVTOOLS__: false,
+    __VUE_I18N_FULL_INSTALL__: false,
+    __VUE_I18N_LEGACY_API__: false,
+  },
+
+  optimizeDeps: {
+    include: ['vue', 'vant', 'vue-router', '@vueuse/core'],
+  },
+
   plugins: [
     Vue(),
 
-    UnoCSS(),
+    UnoCSS({
+      inspector: false,
+    }),
 
     AutoImport({
       dts: 'src/auto-imports.d.ts',
@@ -28,16 +40,6 @@ export default defineConfig({
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),
     },
-  },
-
-  define: {
-    __VUE_I18N_FULL_INSTALL__: false,
-    __VUE_I18N_LEGACY_API__: false,
-    __INTLIFY_PROD_DEVTOOLS__: false,
-  },
-
-  optimizeDeps: {
-    include: ['vue', 'vant', 'vue-router', '@vueuse/core'],
   },
 
   server: {
